@@ -12,7 +12,6 @@ export default function App() {
   const saveAnswerMapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [statusAnswer, setStatusAnswer] = useState<IStatusAnswer>({
     correct: 0,
@@ -77,7 +76,6 @@ export default function App() {
         setLoading(false);
       })
       .catch(() => {
-        setError("Failed to fetch data");
         setLoading(false);
       });
   }, []);
@@ -92,7 +90,6 @@ export default function App() {
         />
       </div>
     );
-  if (error) return <div>{error}</div>;
 
   return (
     <div>
