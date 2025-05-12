@@ -1,10 +1,17 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import type { IQuestion, IStatusAnswer } from "./models/questions";
 import { parseQuestionsFromMarkdown } from "./utils/parseQuestionsFromMarkdown";
 import QuestionUI from "./components/QuestionUI";
 import ScoreNavbar from "./components/ScoreNavbar";
 import Pagination from "./components/Pagination";
+import type { IQuestion, IStatusAnswer } from "./types/questions";
+import { registerSW } from "virtual:pwa-register";
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    window.dispatchEvent(new CustomEvent("pwa-update-ready"));
+  },
+});
 
 const PAGE_SIZE = 10;
 const LOCAL_STORAGE_KEY = "answer";
@@ -20,6 +27,8 @@ export default function App() {
     incorrect: 0,
   });
   const [answerMap, setAnswerMap] = useState<Record<string, string>>({});
+  const [show, setShow] = useState<boolean>(false);
+  const [isInPWA, setIsInPWA] = useState<boolean>(false);
 
   useEffect(() => {
     const answer = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -39,6 +48,31 @@ export default function App() {
       });
     }
   }, [questions]);
+
+  useEffect(() => {
+    const checkStandaloneMode = () => {
+      const isInStandaloneMode =
+        "standalone" in window.navigator && window.navigator.standalone;
+      console.log(isInStandaloneMode);
+      if (isInStandaloneMode) {
+        setIsInPWA(true);
+      }
+    };
+
+    checkStandaloneMode();
+
+    const handleUpdateAvailable = () => setShow(true);
+    window.addEventListener("pwa-update-ready", handleUpdateAvailable);
+
+    return () => {
+      window.removeEventListener("pwa-update-ready", handleUpdateAvailable);
+    };
+  }, []);
+
+  const reload = () => {
+    updateSW(true);
+    setShow(false);
+  };
 
   const onAnswer = (isCorrect: boolean, data: { [key: string]: string }) => {
     setAnswerMap((prev) => ({
@@ -97,6 +131,27 @@ export default function App() {
 
   return (
     <div>
+      {show && isInPWA && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[rgba(209,213,219,0.3)] z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+            <h2 className="text-lg font-bold text-gray-800 mb-2">
+              Cập nhật mới có sẵn
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Tải lại để sử dụng phiên bản mới của ứng dụng.
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={reload}
+                className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
+              >
+                Cập nhật ngay
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ScoreNavbar
         correct={statusAnswer.correct}
         incorrect={statusAnswer.incorrect}

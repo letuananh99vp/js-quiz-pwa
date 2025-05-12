@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { IQuestion } from "../models/questions";
 import { BiChevronDown } from "react-icons/bi";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import type { IQuestion } from "../types/questions";
 
 interface QuestionUIProps {
   question: IQuestion;

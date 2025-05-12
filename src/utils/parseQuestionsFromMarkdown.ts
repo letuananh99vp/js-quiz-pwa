@@ -1,4 +1,4 @@
-import type { IQuestion, IQuestionOption } from "../models/questions";
+import type { IQuestion, IQuestionOption } from "../types/questions";
 
 export function parseQuestionsFromMarkdown(md: string): IQuestion[] {
   const questionBlocks = md.split("###### ").slice(1); // Bỏ phần đầu file
