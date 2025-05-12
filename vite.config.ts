@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
-        name: "JS Questions PWA",
-        short_name: "JSQ PWA",
+        name: "JS Quiz PWA",
+        short_name: "JS Quiz",
         description: "Practice JavaScript questions as a PWA!",
         theme_color: "#ffffff",
         icons: [

@@ -19,10 +19,10 @@ export function parseQuestionsFromMarkdown(md: string): IQuestion[] {
     const options: IQuestionOption[] = [];
     const optionLines = block.match(/- [A-E]: .+/g) || [];
     optionLines.forEach((line) => {
-      const [id, text] = line.match(/- ([A-E]): (.+)/)?.slice(1) || [];
-      if (id && text) {
+      const [key, text] = line.match(/- ([A-E]): (.+)/)?.slice(1) || [];
+      if (key && text) {
         options.push({
-          id,
+          key,
           text: text.replace(/`(.*?)`/g, "<code>$1</code>"),
           isCorrect: false,
         });
@@ -31,10 +31,10 @@ export function parseQuestionsFromMarkdown(md: string): IQuestion[] {
 
     // Lấy đáp án đúng
     const answerMatch = block.match(/#### Answer: ([A-E])/);
-    const correctId = answerMatch ? answerMatch[1] : undefined;
-    if (correctId) {
+    const correctKey = answerMatch ? answerMatch[1] : undefined;
+    if (correctKey) {
       options.forEach((o) => {
-        if (o.id === correctId) o.isCorrect = true;
+        if (o.key === correctKey) o.isCorrect = true;
       });
     }
 

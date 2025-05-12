@@ -1,5 +1,5 @@
 export interface IQuestionOption {
-  id: string;
+  key: string;
   text: string;
   isCorrect: boolean;
 }

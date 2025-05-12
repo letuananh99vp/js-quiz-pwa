@@ -6,17 +6,17 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface QuestionUIProps {
   question: IQuestion;
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (isCorrect: boolean, key: string) => void;
+  selectedOption: string;
 }
 
-export default function QuestionUI({ question, onAnswer }: QuestionUIProps) {
+export default function QuestionUI(props: QuestionUIProps) {
+  const { question, onAnswer, selectedOption } = props;
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("");
   const { explanation, id, options, text, code = "" } = question;
 
-  const onAnswerClick = (id: string, isCorrect: boolean) => {
-    setSelectedOption(id);
-    onAnswer(isCorrect);
+  const onAnswerClick = (key: string, isCorrect: boolean) => {
+    onAnswer(isCorrect, key);
   };
 
   return (
@@ -48,23 +48,23 @@ export default function QuestionUI({ question, onAnswer }: QuestionUIProps) {
           <div className="space-y-2">
             {options.map((option) => (
               <div
-                key={option.id}
+                key={option.key}
                 className={`border rounded-md p-2 ${
                   !selectedOption && "cursor-pointer"
                 } ${
                   selectedOption && option.isCorrect
                     ? "border-2 border-green-800 bg-[rgba(0,100,0,0.25)]"
-                    : selectedOption === option.id
+                    : selectedOption === option.key
                     ? "border-2 border-[rgb(100,0,0)] bg-[rgba(100,0,0,0.25)]"
                     : !selectedOption && "hover:bg-gray-50"
                 }`}
                 onClick={() =>
-                  !selectedOption && onAnswerClick(option.id, option.isCorrect)
+                  !selectedOption && onAnswerClick(option.key, option.isCorrect)
                 }
               >
                 <p
                   dangerouslySetInnerHTML={{
-                    __html: `${option.id} | ${option.text}`,
+                    __html: `${option.key} | ${option.text}`,
                   }}
                 />
               </div>
