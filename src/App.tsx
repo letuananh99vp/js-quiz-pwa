@@ -60,7 +60,10 @@ export default function App() {
 
     // checkStandaloneMode();
 
-    const handleUpdateAvailable = () => setShow(true);
+    const handleUpdateAvailable = () => {
+      setShow(true);
+      console.log("Update available");
+    };
     window.addEventListener("pwa-update-ready", handleUpdateAvailable);
 
     return () => {
