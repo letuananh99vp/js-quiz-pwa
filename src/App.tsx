@@ -23,10 +23,22 @@ export default function App() {
 
   useEffect(() => {
     const answer = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (answer) {
-      setAnswerMap(JSON.parse(answer));
+    if (answer && questions.length > 0) {
+      const data = JSON.parse(answer);
+      setAnswerMap(data);
+      Object.keys(data).forEach((key) => {
+        const question = questions.find((q) => q.id === Number(key));
+        if (question) {
+          setStatusAnswer((prev) => ({
+            ...prev,
+            correct: prev.correct + (question.correctKey === data[key] ? 1 : 0),
+            incorrect:
+              prev.incorrect + (question.correctKey !== data[key] ? 1 : 0),
+          }));
+        }
+      });
     }
-  }, []);
+  }, [questions]);
 
   const onAnswer = (isCorrect: boolean, data: { [key: string]: string }) => {
     setAnswerMap((prev) => ({

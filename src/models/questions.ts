@@ -10,6 +10,7 @@ export interface IQuestion {
   code?: string;
   options: IQuestionOption[];
   explanation: string;
+  correctKey?: string;
 }
 export interface IStatusAnswer {
   correct: number;

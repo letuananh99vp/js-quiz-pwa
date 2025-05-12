@@ -53,6 +53,7 @@ export function parseQuestionsFromMarkdown(md: string): IQuestion[] {
       code,
       options,
       explanation,
+      correctKey,
     });
   });
 
