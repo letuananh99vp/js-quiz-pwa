@@ -53,7 +53,7 @@ export default function App() {
     const checkStandaloneMode = () => {
       const isInStandaloneMode =
         "standalone" in window.navigator && window.navigator.standalone;
-      console.log(isInStandaloneMode);
+      console.log("isInStandaloneMode", isInStandaloneMode);
       if (isInStandaloneMode) {
         setIsInPWA(true);
       }
