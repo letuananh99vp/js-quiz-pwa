@@ -10,7 +10,7 @@ export default function ScoreNavbar({
   remaining,
 }: ScoreNavbarProps) {
   return (
-    <div className="sticky top-0 z-30 bg-white rounded-t-xl shadow flex justify-between items-center px-12 py-4 mb-6">
+    <div className="sticky top-0 z-30 bg-white rounded-t-xl shadow flex justify-around text-center items-center py-4 mb-6 gap-x-1">
       <div className="text-green-800 text-xl font-semibold">
         Correct: <span>{correct}</span>
       </div>
