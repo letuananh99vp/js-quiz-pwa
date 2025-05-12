@@ -28,7 +28,6 @@ export default function App() {
   });
   const [answerMap, setAnswerMap] = useState<Record<string, string>>({});
   const [show, setShow] = useState<boolean>(false);
-  const [isInPWA, setIsInPWA] = useState<boolean>(false);
 
   useEffect(() => {
     const answer = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -50,16 +49,16 @@ export default function App() {
   }, [questions]);
 
   useEffect(() => {
-    const checkStandaloneMode = () => {
-      const isInStandaloneMode =
-        "standalone" in window.navigator && window.navigator.standalone;
-      console.log("isInStandaloneMode", isInStandaloneMode);
-      if (isInStandaloneMode) {
-        setIsInPWA(true);
-      }
-    };
+    // const checkStandaloneMode = () => {
+    //   const isInStandaloneMode =
+    //     "standalone" in window.navigator && window.navigator.standalone;
+    //   console.log("isInStandaloneMode", isInStandaloneMode);
+    //   if (isInStandaloneMode) {
+    //     setIsInPWA(true);
+    //   }
+    // };
 
-    checkStandaloneMode();
+    // checkStandaloneMode();
 
     const handleUpdateAvailable = () => setShow(true);
     window.addEventListener("pwa-update-ready", handleUpdateAvailable);
@@ -131,7 +130,7 @@ export default function App() {
 
   return (
     <div>
-      {show && isInPWA && (
+      {show && (
         <div className="fixed inset-0 flex items-center justify-center bg-[rgba(209,213,219,0.3)] z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
             <h2 className="text-lg font-bold text-gray-800 mb-2">
