@@ -5,6 +5,7 @@ import QuestionUI from "./components/QuestionUI";
 import ScoreNavbar from "./components/ScoreNavbar";
 import Pagination from "./components/Pagination";
 import type { IQuestion, IStatusAnswer } from "./types/questions";
+import LoadingScreen from "./components/LoadingScreen";
 const PAGE_SIZE = 10;
 const LOCAL_STORAGE_KEY = "answer";
 
@@ -80,16 +81,7 @@ export default function App() {
       });
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <img
-          src="pwa-512x512.png"
-          alt="Logo"
-          className="w-12 h-12 rounded-xl"
-        />
-      </div>
-    );
+  if (loading) return <LoadingScreen />;
 
   return (
     <div>
